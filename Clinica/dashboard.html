@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Clínica</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+}
+
+.header {
+    background: #0e5e3a;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container {
+    padding: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #f57c00;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e56d00;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2 id="boasVindas"></h2>
+    <button onclick="logout()">Sair</button>
+</div>
+
+<div class="container">
+
+    <div class="card" id="conteudo"></div>
+
+</div>
+
+<script>
+
+// Verificar se está logado
+const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+if(!usuario){
+    window.location.href = "login.html";
+}
+
+// Mostrar nome
+document.getElementById("boasVindas").innerText =
+    "Bem-vindo(a), " + usuario.nome + " (" + usuario.perfil + ")";
+
+// Conteúdo por perfil
+const conteudo = document.getElementById("conteudo");
+
+if(usuario.perfil === "admin"){
+    conteudo.innerHTML = "<h3>Painel Administrativo</h3><p>Controle total do sistema.</p>";
+}
+
+if(usuario.perfil === "recepcao"){
+    conteudo.innerHTML = "<h3>Painel da Recepção</h3><p>Agendamentos e pacientes.</p>";
+}
+
+if(usuario.perfil === "fisio"){
+    conteudo.innerHTML = "<h3>Painel do Fisioterapeuta</h3><p>Lista de atendimentos do dia.</p>";
+}
+
+function logout(){
+    localStorage.removeItem("usuarioLogado");
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
